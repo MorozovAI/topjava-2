@@ -48,7 +48,7 @@ public class UserMealsUtil {
     }
 
 
-    private static UserMealWithExcess createMealWithExcess(UserMeal meal, Boolean isExceeded) {
+    private static UserMealWithExcess createMealWithExcess(UserMeal meal, boolean isExceeded) {
         return new UserMealWithExcess(meal.getDateTime(), meal.getDescription(), meal.getCalories(), isExceeded);
     }
 }
