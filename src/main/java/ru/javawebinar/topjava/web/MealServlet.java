@@ -20,7 +20,7 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirect to meals");
-        List<MealTo> mealsTo = MealsUtil.filteredByStreams(MealsUtil.meals, LocalTime.of(0, 0),LocalTime.of(23, 59),MealsUtil.CALORIES_PER_DAY);
+        List<MealTo> mealsTo = MealsUtil.filteredByStreams(MealsUtil.MEALS, LocalTime.of(0, 0),LocalTime.of(23, 59),MealsUtil.CALORIES_PER_DAY);
         request.setAttribute("mealsTo",mealsTo);
         request.getRequestDispatcher("/meals.jsp").forward(request,response);
     }
