@@ -9,7 +9,7 @@
 <h2>${param.action == 'insert' ? 'Create meal' : 'Edit meal'}</h2>
 <body>
 <form method="POST" action='meals' name="frmAddMeal">
-    ID : <input type="hidden" readonly="readonly" name="id"
+    <input type="hidden" readonly="readonly" name="id"
                 value="${meal.id}"/><br/>
     DateTime : <input
         type="datetime-local" name="dateTime"
