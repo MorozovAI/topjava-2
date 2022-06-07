@@ -8,28 +8,29 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryMealRepositoryImpl implements MealRepository {
+public class InMemoryMealRepository implements MealRepository {
 
-    private AtomicInteger counter = new AtomicInteger(0);
+    private AtomicInteger counter = new AtomicInteger();
+
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
 
     {
-        MealsUtil.meals.forEach(this::add);
+        MealsUtil.meals.forEach(this::save);
     }
 
     @Override
-    public void add(Meal meal) {
+    public Meal save(Meal meal) {
         if (meal.getId() == null) {
             meal.setId(counter.getAndIncrement());
         }
         repository.put(meal.getId(), meal);
+        return meal;
     }
 
     @Override
     public void delete(int id) {
         repository.remove(id);
     }
-
 
     @Override
     public Collection<Meal> getAll() {

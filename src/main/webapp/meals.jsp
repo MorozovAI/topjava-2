@@ -10,7 +10,6 @@
 <hr>
 <h2>Meals</h2>
 <a href="meals?action=insert">Add Meal</a>
-
 <table border="1" cellspacing="0">
     <tr>
         <th>Date</th>
@@ -28,6 +27,5 @@
         </tr>
     </c:forEach>
 </table>
-
 </body>
 </html>
