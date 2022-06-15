@@ -9,7 +9,7 @@ public interface MealRepository {
     Meal save(Meal meal, int userId);
 
     // false if meal does not belong to userId
-    boolean delete(int id, int User);
+    boolean delete(int id, int userId);
 
     // null if meal does not belong to userId
     Meal get(int id, int userId);

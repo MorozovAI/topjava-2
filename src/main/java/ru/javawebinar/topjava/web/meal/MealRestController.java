@@ -8,9 +8,9 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
-
 import java.util.List;
-
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
@@ -24,7 +24,6 @@ public class MealRestController {
         this.service = service;
     }
 
-
     public Meal get(int id) {
         log.info("get {}", id);
         return service.get(id, authUserId());
@@ -35,14 +34,16 @@ public class MealRestController {
         service.delete(id, authUserId());
     }
 
-    public void update(Meal meal) {
-        log.info("update {}", meal.getId());
+    public void update(Meal meal, int id) {
+        log.info("update {}", id);
+        assureIdConsistent(meal, id);
         service.update(meal, authUserId());
     }
 
     public void create(Meal meal) {
-        log.info("create");
-        service.update(meal, authUserId());
+        log.info("create meal");
+        checkNew(meal);
+        service.create(meal, authUserId());
     }
 
     public List<MealTo> getAll() {

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,7 @@ public class InMemoryUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
     private final Map<Integer, User> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
+    private static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getName).thenComparing(User::getEmail);
 
     @Override
     public boolean delete(int id) {
@@ -30,6 +30,8 @@ public class InMemoryUserRepository implements UserRepository {
         log.info("save {}", user);
         if (user.isNew()) {
             user.setId(counter.incrementAndGet());
+        } else if (get(user.getId()) == null) {
+            return null;
         }
         repository.put(user.getId(), user);
         return user;
@@ -44,13 +46,10 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return repository.values().stream().sorted(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                if (!o1.getName().equalsIgnoreCase(o2.getName())) return o1.getName().compareTo(o2.getName());
-                else return o1.getEmail().compareTo(o2.getEmail());
-            }
-        }).collect(Collectors.toList());
+        return repository.values()
+                .stream()
+                .sorted(USER_COMPARATOR)
+                .collect(Collectors.toList());
     }
 
     @Override
