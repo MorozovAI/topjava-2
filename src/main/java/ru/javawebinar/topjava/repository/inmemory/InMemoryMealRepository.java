@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Comparator;
@@ -29,12 +30,9 @@ public class InMemoryMealRepository implements MealRepository {
     public Meal save(Meal meal, int userId) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-        } else if (get(meal.getId(), userId) == null) {
-            return null;
         }
-        Map<Integer, Meal> meals = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
-        meals.put(meal.getId(), meal);
-        return meal;
+        return repository.computeIfAbsent(userId, key -> new ConcurrentHashMap<>())
+                .put(meal.getId(), meal);
     }
 
     @Override
