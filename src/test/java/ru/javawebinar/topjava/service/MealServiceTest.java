@@ -34,23 +34,26 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
     private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
-    private static String timingResults = "";
-    @Autowired
-    private MealService service;
+    private static StringBuilder timingResults = new StringBuilder();
 
     @Rule
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            String testTiming = String.format("Test \"%s\" was completed in %d millis", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            String testTiming = String.format("%-23s  %d ms", description.getMethodName(),
+                    TimeUnit.NANOSECONDS.toMillis(nanos));
             log.info(testTiming);
-            timingResults += testTiming + '\n';
+            timingResults.append(testTiming).append('\n');
         }
     };
 
+    @Autowired
+    private MealService service;
+
     @AfterClass
     public static void printTimingResults() {
-        log.info(timingResults);
+        log.info("\nTest                     Timing" +
+                '\n' + timingResults);
     }
 
     @Test
