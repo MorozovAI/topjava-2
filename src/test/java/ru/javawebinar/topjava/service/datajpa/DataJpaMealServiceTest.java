@@ -19,8 +19,9 @@ public class DataJpaMealServiceTest extends AbstractMealServiceTest {
     public void getWithUser() {
         Meal meal = service.getWithUser(MEAL1_ID, USER_ID);
         MEAL_MATCHER.assertMatch(meal, MealTestData.meal1);
-        USER_MATCHER.assertMatch(meal.getUser(), user);
+        USER_MATCHER.assertMatch(user, meal.getUser());
     }
+
     @Test
     public void getWithUserNotOwn() {
         assertThrows(NotFoundException.class, () -> service.get(MEAL1_ID, ADMIN_ID));
@@ -28,6 +29,6 @@ public class DataJpaMealServiceTest extends AbstractMealServiceTest {
 
     @Test
     public void getWithUserNotExist() {
-        assertThrows(NotFoundException.class, () -> service.get(MEAL1_ID+20, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.get(MEAL1_ID + 20, USER_ID));
     }
 }
