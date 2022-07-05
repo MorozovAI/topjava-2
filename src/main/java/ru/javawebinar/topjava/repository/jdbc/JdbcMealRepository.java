@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
 public abstract class JdbcMealRepository<T> implements MealRepository {
 
     private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
@@ -52,7 +51,7 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
 
     @Repository
     @Profile(Profiles.HSQL_DB)
-    public static class TimestampJdbcMealRepositoryImpl extends JdbcMealRepository<Timestamp> {
+    public static class TimestampJdbcMealRepository extends JdbcMealRepository<Timestamp> {
         @Override
         protected Timestamp toDbDateTime(LocalDateTime localDateTime) {
             return Timestamp.valueOf(localDateTime);
