@@ -25,7 +25,6 @@ public class MealUIController extends AbstractMealController {
         return super.get(id);
     }
 
-
     @Override
     @GetMapping
     public List<MealTo> getAll() {
@@ -40,7 +39,6 @@ public class MealUIController extends AbstractMealController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> createOrUpdate(@Valid Meal meal, BindingResult result) {
         if (result.hasErrors())
             return ValidationUtil.getErrorResult(result);

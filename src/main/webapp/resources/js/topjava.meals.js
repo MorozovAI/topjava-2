@@ -37,7 +37,7 @@ $(function () {
                     }
                 },
                 {
-                    "data": "description",
+                    "data": "description"
                 },
                 {
                     "data": "calories"
